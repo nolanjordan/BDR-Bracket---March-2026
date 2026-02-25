@@ -14,25 +14,16 @@
             align-items: center;
         }
 
-        /* Logo Styling */
-        .logo-container {
-            margin-bottom: 30px;
-            text-align: center;
-        }
-
-        .logo-container img {
-            max-width: 200px; /* Adjust size as needed */
-            height: auto;
-        }
+        .logo-container { margin-bottom: 30px; text-align: center; }
+        .logo-container img { max-width: 200px; height: auto; }
 
         .tournament-section {
             background: #fff;
             padding: 30px;
             border-radius: 12px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            margin-bottom: 40px;
+            margin-bottom: 30px;
             width: fit-content;
-            position: relative;
         }
 
         .header-row {
@@ -45,12 +36,9 @@
         }
 
         h2 { color: #2c3e50; margin: 0; padding-bottom: 5px; font-size: 1.5rem; }
+        h3 { color: #3182ce; text-align: center; margin-top: 0; }
 
-        .bracket-container {
-            display: flex;
-            align-items: center;
-            gap: 40px;
-        }
+        .bracket-container { display: flex; align-items: center; gap: 40px; }
 
         .round {
             display: flex;
@@ -60,11 +48,12 @@
         }
 
         .small-bracket .round { height: 280px; }
+        .grand-final-section .round { height: 150px; }
 
         .matchup {
             display: flex;
             flex-direction: column;
-            width: 150px;
+            width: 180px;
             border: 1px solid #d1d8e0;
             border-radius: 6px;
             background: white;
@@ -92,18 +81,16 @@
 
         .advance-btn {
             cursor: pointer;
-            background: #edf2f7;
-            border: 1px solid #cbd5e0;
+            background: #3182ce; 
+            color: white;
+            border: none;
             border-radius: 4px;
-            padding: 2px 6px;
+            padding: 2px 8px;
             font-size: 11px;
-            transition: all 0.2s;
+            font-weight: bold;
         }
 
-        .advance-btn:hover { 
-            background: #3182ce; 
-            color: white; 
-        }
+        .advance-btn:hover { background: #2b6cb0; }
 
         .reset-btn {
             background: #fed7d7;
@@ -113,12 +100,10 @@
             border-radius: 4px;
             cursor: pointer;
             font-size: 12px;
-            font-weight: bold;
         }
 
-        .reset-btn:hover { background: #feb2b2; }
-
-        .champ-box { border: 2px solid #38a169; background: #f0fff4; }
+        .champ-box { border: 3px solid #38a169; background: #f0fff4; }
+        .grand-final-label { font-size: 10px; color: #718096; font-weight: bold; text-transform: uppercase; }
     </style>
 </head>
 <body>
@@ -147,7 +132,7 @@
                 <div class="matchup"><div class="slot"><input type="text" placeholder="TBD" id="8-r3-1"><button class="advance-btn" onclick="adv('8-r3-1','8-winner')">></button></div><div class="slot"><input type="text" placeholder="TBD" id="8-r3-2"><button class="advance-btn" onclick="adv('8-r3-2','8-winner')">></button></div></div>
             </div>
             <div class="round">
-                <div class="matchup champ-box"><div class="slot"><input type="text" placeholder="🏆 CHAMPION" id="8-winner"></div></div>
+                <div class="matchup"><div class="slot"><input type="text" placeholder="Winner BDR" id="8-winner"><button class="advance-btn" onclick="adv('8-winner','final-1')">FINAL ></button></div></div>
             </div>
         </div>
     </div>
@@ -166,7 +151,34 @@
                 <div class="matchup"><div class="slot"><input type="text" placeholder="TBD" id="4-r2-1"><button class="advance-btn" onclick="adv('4-r2-1','4-winner')">></button></div><div class="slot"><input type="text" placeholder="TBD" id="4-r2-2"><button class="advance-btn" onclick="adv('4-r2-2','4-winner')">></button></div></div>
             </div>
             <div class="round">
-                <div class="matchup champ-box"><div class="slot"><input type="text" placeholder="🏆 CHAMPION" id="4-winner"></div></div>
+                <div class="matchup"><div class="slot"><input type="text" placeholder="Winner 2nd Chance" id="4-winner"><button class="advance-btn" onclick="adv('4-winner','final-2')">FINAL ></button></div></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="tournament-section grand-final-section">
+        <h3>🏆 Ultimate Grand Finale</h3>
+        <div class="bracket-container" style="justify-content: center;">
+            <div class="round">
+                <div class="matchup">
+                    <div class="slot">
+                        <span class="grand-final-label">BDR:</span>
+                        <input type="text" placeholder="Waiting..." id="final-1">
+                        <button class="advance-btn" onclick="adv('final-1','ultimate-champ')">></button>
+                    </div>
+                    <div class="slot">
+                        <span class="grand-final-label">2nd:</span>
+                        <input type="text" placeholder="Waiting..." id="final-2">
+                        <button class="advance-btn" onclick="adv('final-2','ultimate-champ')">></button>
+                    </div>
+                </div>
+            </div>
+            <div class="round">
+                <div class="matchup champ-box">
+                    <div class="slot" style="height: 50px;">
+                        <input type="text" placeholder="GRAND CHAMPION" id="ultimate-champ" style="font-size: 16px; text-align: center; color: #2f855a; font-weight: bold;">
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -194,7 +206,7 @@
         function clearBracket(prefix, bracketName) {
             if(confirm(`Reset the ${bracketName}?`)) {
                 document.querySelectorAll('input').forEach(input => {
-                    if(input.id.startsWith(prefix)) {
+                    if(input.id.startsWith(prefix) || (prefix === '8' && input.id === 'final-1') || (prefix === '4' && input.id === 'final-2')) {
                         input.value = '';
                         localStorage.removeItem(input.id);
                     }
