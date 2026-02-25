@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BDR Global Competition</title>
+    <title>BDR Global Competition | Powered by Ardoq</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -12,6 +12,17 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+        }
+
+        /* Logo Styling */
+        .logo-container {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .logo-container img {
+            max-width: 200px; /* Adjust size as needed */
+            height: auto;
         }
 
         .tournament-section {
@@ -112,6 +123,10 @@
 </head>
 <body>
 
+    <div class="logo-container">
+        <img src="https://www.ardoq.com/hubfs/Ardoq_Logo_Standard.svg" alt="Ardoq Logo">
+    </div>
+
     <div class="tournament-section" id="section-8">
         <div class="header-row">
             <h2>BDR Global Competition</h2>
@@ -161,7 +176,6 @@
             document.querySelectorAll('input').forEach(input => {
                 const savedValue = localStorage.getItem(input.id);
                 if (savedValue) input.value = savedValue;
-
                 input.addEventListener('input', (e) => {
                     localStorage.setItem(e.target.id, e.target.value);
                 });
