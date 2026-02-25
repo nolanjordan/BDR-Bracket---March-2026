@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tournament Brackets - Auto-Save</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .tournament-section {
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            margin-bottom: 40px;
+            width: fit-content;
+            position: relative;
+        }
+
+        .header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #eee;
+            margin-bottom: 15px;
+        }
+
+        h2 { color: #2c3e50; margin: 0; padding-bottom: 5px; }
+
+        .bracket-container {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .round {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            height: 480px; 
+        }
+
+        .small-bracket .round { height: 280px; }
+
+        .matchup {
+            display: flex;
+            flex-direction: column;
+            width: 150px;
+            border: 1px solid #d1d8e0;
+            border-radius: 6px;
+            background: white;
+            overflow: hidden;
+        }
+
+        .slot {
+            height: 35px;
+            padding: 5px 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .slot:first-child { border-bottom: 1px solid #edf2f7; }
+
+        input {
+            width: 100%;
+            border: none;
+            outline: none;
+            font-size: 13px;
+            font-weight: 500;
+            background: transparent;
+        }
+
+        .advance-btn {
+            cursor: pointer;
+            background: #edf2f7;
+            border: 1px solid #cbd5e0;
+            border-radius: 4px;
+            padding: 2px 6px;
+            font-size: 11px;
+            transition: all 0.2s;
+        }
+
+        .advance-btn:hover { 
+            background: #3182ce; 
+            color: white; 
+        }
+
+        .reset-btn {
+            background: #fed7d7;
+            color: #c53030;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .reset-btn:hover { background: #feb2b2; }
+
+        .champ-box { border: 2px solid #38a169; background: #f0fff4; }
+    </style>
+</head>
+<body>
+
+    <div class="tournament-section" id="section-8">
+        <div class="header-row">
+            <h2>8-Team Bracket</h2>
+            <button class="reset-btn" onclick="clearBracket('8')">Reset</button>
+        </div>
+        <div class="bracket-container">
+            <div class="round">
+                <div class="matchup"><div class="slot"><input type="text" id="8-r1-1"><button class="advance-btn" onclick="adv('8-r1-1','8-r2-1')">></button></div><div class="slot"><input type="text" id="8-r1-2"><button class="advance-btn" onclick="adv('8-r1-2','8-r2-1')">></button></div></div>
+                <div class="matchup"><div class="slot"><input type="text" id="8-r1-3"><button class="advance-btn" onclick="adv('8-r1-3','8-r2-2')">></button></div><div class="slot"><input type="text" id="8-r1-4"><button class="advance-btn" onclick="adv('8-r1-4','8-r2-2')">></button></div></div>
+                <div class="matchup"><div class="slot"><input type="text" id="8-r1-5"><button class="advance-btn" onclick="adv('8-r1-5','8-r2-3')">></button></div><div class="slot"><input type="text" id="8-r1-6"><button class="advance-btn" onclick="adv('8-r1-6','8-r2-3')">></button></div></div>
+                <div class="matchup"><div class="slot"><input type="text" id="8-r1-7"><button class="advance-btn" onclick="adv('8-r1-7','8-r2-4')">></button></div><div class="slot"><input type="text" id="8-r1-8"><button class="advance-btn" onclick="adv('8-r1-8','8-r2-4')">></button></div></div>
+            </div>
+            <div class="round">
+                <div class="matchup"><div class="slot"><input type="text" id="8-r2-1"><button class="advance-btn" onclick="adv('8-r2-1','8-r3-1')">></button></div><div class="slot"><input type="text" id="8-r2-2"><button class="advance-btn" onclick="adv('8-r2-2','8-r3-1')">></button></div></div>
+                <div class="matchup"><div class="slot"><input type="text" id="8-r2-3"><button class="advance-btn" onclick="adv('8-r2-3','8-r3-2')">></button></div><div class="slot"><input type="text" id="8-r2-4"><button class="advance-btn" onclick="adv('8-r2-4','8-r3-2')">></button></div></div>
+            </div>
+            <div class="round">
+                <div class="matchup"><div class="slot"><input type="text" id="8-r3-1"><button class="advance-btn" onclick="adv('8-r3-1','8-winner')">></button></div><div class="slot"><input type="text" id="8-r3-2"><button class="advance-btn" onclick="adv('8-r3-2','8-winner')">></button></div></div>
+            </div>
+            <div class="round">
+                <div class="matchup champ-box"><div class="slot"><input type="text" placeholder="🏆" id="8-winner"></div></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="tournament-section small-bracket" id="section-4">
+        <div class="header-row">
+            <h2>4-Team Bracket</h2>
+            <button class="reset-btn" onclick="clearBracket('4')">Reset</button>
+        </div>
+        <div class="bracket-container">
+            <div class="round">
+                <div class="matchup"><div class="slot"><input type="text" id="4-r1-1"><button class="advance-btn" onclick="adv('4-r1-1','4-r2-1')">></button></div><div class="slot"><input type="text" id="4-r1-2"><button class="advance-btn" onclick="adv('4-r1-2','4-r2-1')">></button></div></div>
+                <div class="matchup"><div class="slot"><input type="text" id="4-r1-3"><button class="advance-btn" onclick="adv('4-r1-3','4-r2-2')">></button></div><div class="slot"><input type="text" id="4-r1-4"><button class="advance-btn" onclick="adv('4-r1-4','4-r2-2')">></button></div></div>
+            </div>
+            <div class="round">
+                <div class="matchup"><div class="slot"><input type="text" id="4-r2-1"><button class="advance-btn" onclick="adv('4-r2-1','4-winner')">></button></div><div class="slot"><input type="text" id="4-r2-2"><button class="advance-btn" onclick="adv('4-r2-2','4-winner')">></button></div></div>
+            </div>
+            <div class="round">
+                <div class="matchup champ-box"><div class="slot"><input type="text" placeholder="🏆" id="4-winner"></div></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Load data on startup
+        window.onload = () => {
+            document.querySelectorAll('input').forEach(input => {
+                const savedValue = localStorage.getItem(input.id);
+                if (savedValue) input.value = savedValue;
+
+                // Listen for any manual typing to save immediately
+                input.addEventListener('input', (e) => {
+                    localStorage.setItem(e.target.id, e.target.value);
+                });
+            });
+        };
+
+        // Advance winner and save to storage
+        function adv(from, to) {
+            const val = document.getElementById(from).value;
+            if (val) {
+                const target = document.getElementById(to);
+                target.value = val;
+                localStorage.setItem(to, val);
+            }
+        }
+
+        // Clear specific bracket storage
+        function clearBracket(prefix) {
+            if(confirm(`Reset the ${prefix}-team bracket?`)) {
+                document.querySelectorAll('input').forEach(input => {
+                    if(input.id.startsWith(prefix)) {
+                        input.value = '';
+                        localStorage.removeItem(input.id);
+                    }
+                });
+            }
+        }
+    </script>
+</body>
+</html>
